@@ -10,8 +10,10 @@ export default function AddToCartButton({ product, quantity = 1 }) {
     item.product_id === product.id || item.product?.id === product.id
   );
   const inCart = !!cartItem;
+  const outOfStock = !product?.stock || product.stock <= 0;
 
   const handleAddToCart = () => {
+    if (outOfStock) return;
     addToCart(product, quantity);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1000);
@@ -24,6 +26,14 @@ export default function AddToCartButton({ product, quantity = 1 }) {
       removeItem(cartItem.id);
     }
   };
+
+  if (outOfStock && !inCart) {
+    return (
+      <button className="add-to-cart-btn out-of-stock" disabled title="Нет в наличии">
+        НЕТ В НАЛИЧИИ
+      </button>
+    );
+  }
 
   if (inCart) {
     return (

@@ -2,6 +2,7 @@ import { useFavorites } from '../contexts/FavoritesContext';
 import { Link } from 'react-router';
 import { useAuth } from '../contexts/AuthContext';
 import AddToCartButton from '../components/AddToCartButton';
+import { API_ORIGIN } from '../services/api';
 import './FavoritesPage.css';
 
 function FavoritesPage() {
@@ -72,7 +73,7 @@ function FavoritesPage() {
               
               <Link to={`/product/${productId}`} className="product-image-link">
                 {product?.image ? (
-                  <img src={product.image} alt={product?.name || 'Товар'} className="product-image" />
+                  <img src={`${API_ORIGIN}${product.image}`} alt={product?.name || 'Товар'} className="product-image" />
                 ) : (
                   <div className="product-image-placeholder">НЕТ ФОТО</div>
                 )}

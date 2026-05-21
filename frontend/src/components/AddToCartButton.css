@@ -58,6 +58,14 @@
   opacity: 0.7;
 }
 
+.add-to-cart-btn.out-of-stock {
+  background: var(--brutal-gray);
+  color: #888;
+  cursor: not-allowed;
+  pointer-events: none;
+  border-color: #ccc;
+}
+
 .add-to-cart-btn svg {
   width: 18px;
   height: 18px;

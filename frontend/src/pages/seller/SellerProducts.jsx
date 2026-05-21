@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { sellerApi } from '../../services/seller';
+import { categoriesApi } from '../../services/categories';
 import { API_ORIGIN } from '../../services/api';
 import './SellerPanel.css';
 
 function SellerProducts() {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -14,7 +16,7 @@ function SellerProducts() {
 
   const [form, setForm] = useState({
     name: '', slug: '', price: '', stock: '0',
-    description: '', category_id: '1', image: ''
+    description: '', category_id: '', image: ''
   });
 
   const fetchProducts = async () => {
@@ -28,10 +30,20 @@ function SellerProducts() {
     }
   };
 
-  useEffect(() => { fetchProducts(); }, []);
+  const fetchCategories = async () => {
+    try {
+      const res = await categoriesApi.getAll();
+      setCategories(Array.isArray(res) ? res : []);
+    } catch (err) {
+      console.error('Failed to load categories', err);
+    }
+  };
+
+  useEffect(() => { fetchProducts(); fetchCategories(); }, []);
 
   const openCreate = () => {
-    setForm({ name: '', slug: '', price: '', stock: '0', description: '', category_id: '1', image: '' });
+    const firstCat = categories.length > 0 ? String(categories[0].id) : '';
+    setForm({ name: '', slug: '', price: '', stock: '0', description: '', category_id: firstCat, image: '' });
     setEditingId(null);
     setShowModal(true);
   };
@@ -188,6 +200,15 @@ function SellerProducts() {
                 <div className="form-group">
                   <label>Количество на складе</label>
                   <input type="number" min="0" value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} />
+                </div>
+                <div className="form-group full-width">
+                  <label>Категория</label>
+                  <select value={form.category_id} onChange={(e) => setForm({ ...form, category_id: e.target.value })} required>
+                    <option value="">— Выберите категорию —</option>
+                    {categories.map((cat) => (
+                      <option key={cat.id} value={String(cat.id)}>{cat.name}</option>
+                    ))}
+                  </select>
                 </div>
                 <div className="form-group full-width">
                   <label>Описание</label>

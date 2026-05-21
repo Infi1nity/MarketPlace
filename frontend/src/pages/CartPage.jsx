@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
+import { API_ORIGIN } from '../services/api';
 import './CartPage.css';
 
 function CartPage() {
@@ -20,10 +21,15 @@ function CartPage() {
   } = useCart();
   const { isAuthenticated } = useAuth();
 
-  // Обработчик ошибки загрузки изображения
   const handleImageError = (e) => {
-    e.target.src = 'https://picsum.photos/id/20/80/80';
-    e.target.onerror = null;
+    e.target.style.display = 'none';
+    const parent = e.target.parentElement;
+    if (parent && !parent.querySelector('.no-image')) {
+      const fallback = document.createElement('div');
+      fallback.className = 'no-image';
+      fallback.innerHTML = '<span>📷</span>';
+      parent.appendChild(fallback);
+    }
   };
 
   if (loading) {
@@ -74,7 +80,7 @@ function CartPage() {
               <div className="cart-item-image">
                 {item.product?.image ? (
                   <img 
-                    src={item.product.image} 
+                    src={`${API_ORIGIN}${item.product.image}`}
                     alt={item.product.name}
                     onError={handleImageError}
                   />

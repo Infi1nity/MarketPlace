@@ -70,12 +70,45 @@
   background: var(--brutal-gray);
   border: var(--brutal-border-thick);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: visible;
 }
 
 .avatar-icon {
   font-size: 3rem;
+}
+
+.role-badge {
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Arial Black', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  white-space: nowrap;
+  border: 2px solid var(--brutal-black);
+  letter-spacing: 0.5px;
+}
+
+.role-badge.role-admin {
+  background: var(--brutal-red);
+  color: white;
+}
+
+.role-badge.role-seller {
+  background: var(--brutal-pink);
+  color: var(--brutal-black);
+}
+
+.role-badge.role-buyer {
+  background: var(--brutal-yellow);
+  color: var(--brutal-black);
 }
 
 .profile-user-info {
@@ -368,11 +401,19 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 1rem;
   }
   
   .profile-avatar {
     width: 80px;
     max-width: 80px;
+    margin: 0;
+  }
+  
+  .role-badge {
+    bottom: -12px;
+    font-size: 0.6rem;
+    padding: 1px 6px;
   }
   
   .profile-user-info {
