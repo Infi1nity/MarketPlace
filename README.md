@@ -1,6 +1,6 @@
 <div align="center">
   <br/>
-  <h1>🛒 Marketplace</h1>
+  <h1>🛒 MarketPlace</h1>
   <p><strong>Full-featured e‑commerce platform with multi‑role support — buyers, sellers, and admins in one unified marketplace.</strong></p>
 
   <p>
